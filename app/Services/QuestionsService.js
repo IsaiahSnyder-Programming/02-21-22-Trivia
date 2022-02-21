@@ -16,6 +16,18 @@ class QuestionsService {
         let question = response.data.results.map(q => new Question(q))
         ProxyState.questions = question
     }
+
+    answerClick(answer) {
+        console.log(answer);
+        ProxyState.questions.forEach(c => {
+        
+            if(c.correct_answer == answer) {
+                console.log(c.correct_answer);
+            }
+            
+        })
+        
+    }
     
 }
 

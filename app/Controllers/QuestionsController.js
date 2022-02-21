@@ -18,15 +18,15 @@ function _drawAnswers() {
     let template = ''
     // ProxyState.questions.forEach(a => a.answers)
 
+    ProxyState.questions.forEach(a => {
+        let template = ''
+        for (let i = 0; i < a.answers.length; i++) {
+            const answer = a.answers[i];
+            template += `<button class="btn btn-dark m-2" onclick="app.questionsController.answerClick('${answer}')">${answer}</button>`
+        }
+        document.getElementById('answers').innerHTML = template
+    })
 
-    for(let key in ProxyState.questions) {
-        console.log('[_drawAnswers]', key);
-    }
-
-    
-    ProxyState.questions.forEach(a => template += `<button class="btn, btn-dark">${a.answers}</button>`)
-    document.getElementById('answers').innerHTML = template
-    // `<button class="btn, btn-dark">${a.answers}</button>`
 }
 
 //proxystate.questions@0
@@ -34,7 +34,8 @@ function _drawAnswers() {
 
 export class QuestionsController {
     constructor() {
-        ProxyState.on('questions', _drawQuestions, _drawAnswers)
+        ProxyState.on('questions', _drawQuestions)
+        ProxyState.on('questions', _drawAnswers)
     }
 
     async getTFQuestions() {
@@ -61,6 +62,10 @@ export class QuestionsController {
         }
     }
 
+
+    answerClick(answer) {
+        questionsService.answerClick(answer)
+    }
 
     tfButton() {
         this.getTFQuestions()
