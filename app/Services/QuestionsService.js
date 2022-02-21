@@ -1,5 +1,6 @@
 import { ProxyState } from "../AppState.js";
 import { Question } from "../Models/Question.js";
+import { Pop } from "../Utils/Pop.js";
 
 class QuestionsService {
     
@@ -16,15 +17,16 @@ class QuestionsService {
         let question = response.data.results.map(q => new Question(q))
         ProxyState.questions = question
     }
+    
 
     answerClick(answer) {
         console.log(answer);
         ProxyState.questions.forEach(c => {
-        
             if(c.correct_answer == answer) {
-                console.log(c.correct_answer);
+                Pop.toast('YAY')
+            } else {
+                Pop.toast('NAY')
             }
-            
         })
         
     }
