@@ -6,22 +6,40 @@ import { Pop } from "../Utils/Pop.js";
 function _drawQuestions() {
     console.log('drawing Questions');
     let template = ''
+
+    // ProxyState.questions.filter(b => b.incorrect_answers)
+
     ProxyState.questions.forEach(q => template += `<h3>${q.question}</h3>`)
     document.getElementById('questions').innerHTML = template
 }
 
+function _drawAnswers() {
+    console.log('drawing Answers');
+    let template = ''
+    // ProxyState.questions.forEach(a => a.answers)
 
+
+    for(let key in ProxyState.questions) {
+        console.log('[_drawAnswers]', key);
+    }
+
+    
+    ProxyState.questions.forEach(a => template += `<button class="btn, btn-dark">${a.answers}</button>`)
+    document.getElementById('answers').innerHTML = template
+    // `<button class="btn, btn-dark">${a.answers}</button>`
+}
+
+//proxystate.questions@0
 
 
 export class QuestionsController {
     constructor() {
-        ProxyState.on('questions', _drawQuestions)
-
+        ProxyState.on('questions', _drawQuestions, _drawAnswers)
     }
 
     async getTFQuestions() {
         try {
-            console.log('started getQuestions');
+            console.log('started getTFQuestions');
             await questionsService.getTFQuestions()
             console.log('finished getTFQuestions');   
         } catch (error) {
@@ -33,7 +51,7 @@ export class QuestionsController {
 
     async getMCQuestions() {
         try {
-            console.log('started getQuestions');
+            console.log('started getMCQuestions');
             await questionsService.getMCQuestions()
             console.log('finished getMCQuestions');   
         } catch (error) {
@@ -45,16 +63,11 @@ export class QuestionsController {
 
 
     tfButton() {
-        console.log('[QuestionsController] tfButton clicked');
-        questionsService.tfButton()
         this.getTFQuestions()
     }
 
     mcButton() {
-        console.log('[QuestionsController] mcButton clicked');
-        questionsService.mcButton()
         this.getMCQuestions()
-
     }
     
 
